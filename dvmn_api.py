@@ -2,6 +2,7 @@ import requests
 import json
 import telegram
 import os
+from urllib.parse import urljoin
 from dotenv import load_dotenv
 load_dotenv()
 
@@ -22,7 +23,7 @@ while True:
                 chat_id=CHAT_ID,
                 text=f'Преподаватель проверил работу! \n'
                      f'«{query["new_attempts"][0]["lesson_title"]}»\n'
-                     f'Ссылка на урок: {query["new_attempts"][0]["lesson_url"]}')
+                     f'Ссылка на урок: {urljoin("https://dvmn.org/", query["new_attempts"][0]["lesson_url"])}')
 
             if query["new_attempts"][0]["is_negative"] is True:
                 bot.send_message(chat_id=CHAT_ID, text='Нужно внести правки по ревью!')
