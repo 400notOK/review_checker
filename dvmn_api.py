@@ -18,20 +18,21 @@ def main():
                 URL_DVM_QUERY,
                 headers={'Authorization': f'Token {os.getenv("DEVMAN_API_TOKEN")}'},
                 params={'timestamp': timestamp}
-            ).json()
+            )
             query_to_dvm_api.raise_for_status()
-            if 'error' in query_to_dvm_api.json():
-                raise requests.exceptions.HTTPError(query_to_dvm_api['error'])
-            timestamp = query_to_dvm_api.get('timestamp_to_request')
+            json_api_response = query_to_dvm_api.json()
+            if 'error' in json_api_response:
+                raise requests.exceptions.HTTPError(json_api_response['error'])
+            timestamp = json_api_response.get('timestamp_to_request')
 
-            status = query_to_dvm_api.get('status')
+            status = json_api_response.get('status')
 
             if status == 'found':
-                new_attempts = query_to_dvm_api['new_attempts'][0]
+                new_attempts = json_api_response['new_attempts'][0]
                 lesson = new_attempts['lesson_title']
                 is_negative = new_attempts['is_negative']
-                timestamp = query_to_dvm_api['last_attempt_timestamp']
-                lesson_url = query_to_dvm_api["new_attempts"][0]["lesson_url"]
+                timestamp = json_api_response['last_attempt_timestamp']
+                lesson_url = json_api_response["new_attempts"][0]["lesson_url"]
 
                 if is_negative:
                     bot.send_message(
@@ -55,9 +56,9 @@ def main():
                         ''')
                     bot.send_message(chat_id=TG_CHAT_ID, text='Код идеален, можно делать следующий урок!')
 
-                timestamp = query_to_dvm_api.get('last_attempt_timestamp')
+                timestamp = json_api_response.get('last_attempt_timestamp')
             if status == 'timeout':
-                timestamp = query_to_dvm_api.get('timestamp_to_request')
+                timestamp = json_api_response.get('timestamp_to_request')
         except requests.exceptions.ReadTimeout:
             pass
         except ConnectionError:
