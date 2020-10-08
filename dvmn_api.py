@@ -47,7 +47,7 @@ def main():
                 else:
                     bot.send_message(
                         chat_id=TG_CHAT_ID,
-                        text='''
+                        text=f'''
                         Преподаватель проверил работу!
                         «{lesson}»
                         Ссылка на урок: {urljoin('https://dvmn.org/', lesson_url)}
