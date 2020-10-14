@@ -12,7 +12,7 @@ Create .env file with environment variables:
 ```
 DEVMAN_API_TOKEN=<DEVMAN_API_TOKEN>
 TELEGRAM_TOKEN=<TELEGRAM_TOKEN>
-TG_CHAT_ID=<TELEGRAM_CHAT_ID>
+TELEGRAM_CHAT_ID=<TELEGRAM_CHAT_ID>
 ```
 
 ### Usage
